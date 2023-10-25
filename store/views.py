@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Category, Products, Cart
 from .forms import RegistrationForm
+from telebot import TeleBot
+from django.conf import settings
+
+bot = TeleBot(settings.BOT_TOKEN)
 
 
 def home(request):
@@ -31,21 +35,33 @@ def get_all_products(request, pk):
 
 
 def add_to_cart(request, product_id):
-    if request.method == 'POST':
-        quantity = int(request.POST.get('quantity'))
-        prod = Products.objects.get(id=product_id)
-        if quantity <= prod.amount:
-            Cart.objects.create(
-                user_id=request.user.id,
-                product_id=prod,
-                count=quantity
-            )
+    quantity = int(request.POST.get('quantity'))
+    prod = Products.objects.get(id=product_id)
+    Cart.objects.create(
+        user_id=request.user.id,
+        product_id=prod,
+        count=quantity
+    )
     return redirect('/')
+
+
+def product_detail(request, product_id):
+    product = Products.objects.get(id=product_id)
+    context = {'product': product}
+    return render(request, 'product.html', context)
 
 
 def user_cart(request):
     user = request.user.id
     cart = Cart.objects.filter(user_id=user)
+    if request.method == 'POST':
+        message_text = "Продукты: \n\n"
+        for i in cart:
+            message_text += f'Название товара: {i.product_id.name}\n'
+            message_text += f'Количество: {i.count}\n'
+        bot.send_message(chat_id=1380637770, text=message_text)
+        cart.delete()
+        return redirect('/')
     context = {'cart_list': cart}
     return render(request, 'user_cart.html', context)
 

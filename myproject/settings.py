@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # TODO ADD WHITENOISE  MIDDLEWARE
 ]
 
 ROOT_URLCONF = 'myproject.urls'
@@ -123,8 +124,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-
+# TODO ADD STATIC COMMON FILES
+import os
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATICFILE_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -133,3 +140,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+BOT_TOKEN = '6528170079:AAECNDHHJIgHsdBy272zPAjylsFG9JHAJTs'

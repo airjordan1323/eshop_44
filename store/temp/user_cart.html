@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+{% for i in cart_list %}
+<h1>{{ i.product_id.name }}</h1>
+Описание товара: {{ i.product_id.description }} <br>
+Выбранное кол-во: {{ i.count }} <br>
+<a href="/del-item/{{ i.id }}">Удалить товар из корзины</a><br>
+{% endfor %}
+<br>
+<hr>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Оформить заказ</button>
+</form>
+<a href="/">Домой</a>
+</body>
+</html>
