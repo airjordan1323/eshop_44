@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for i in products %}
+Название товара: {{ i.name }} <br>
+Описание товара: {{ i.description }} <br>
+Цена товара: {{ i.price }} <br>
+Количество товара: {{ i.amount }} <br>
+<a href="/add-to-cart/{{ i.id }}">Добавить в корзину</a> <br>
+<br>
+{% endfor %}
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Наша главная страница!</h1>
+<form method="GET">
+    {% csrf_token %}
+    <input type="text" name="search_pr" placeholder="Поиск продуктов">
+    <button>Поиск</button>
+</form>
+{% for category in all_categories %}
+<a href="category/{{ category.id }}">{{ category.name }}</a>
+{% endfor %}
+<br>
+<br>
+<hr>
+{% for products in all_products %}
+Название товара: {{ products.name }} <br>
+Описание товара: {{ products.description }} <br>
+Цена товара: {{ products.price }} <br>
+Количество товара: {{ products.amount }} <br>
+<br>
+{% endfor %}
+<br>
+<a href="about/">О нас</a>
+<br>
+<a href="contacts/">Контакты</a>
+<hr>
+{% if user.is_authenticated %}
+<a href="/my-cart/">Корзина</a><br>
+<hr>
+<a href="/accounts/logout/">Выйти</a><br>
+{% else %}
+<a href="/accounts/login/">Войти</a><br>
+<a href="/registration/">Зарегистрироваться</a>
+{% endif %}
+</body>
+</html>
